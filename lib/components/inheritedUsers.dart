@@ -1,27 +1,48 @@
 
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/components/inheritedUsers.dart';
 
 class UserData{
-  String name, phone, email, adress, zip, town, birth, comment;
+  String id,lastName, phone, email, adress, zipCode, city, birth, comment, name;
+
   UserData({
-    this.name, 
-    // this.phone,
-    // this.email,
-    // this.adress,
-    // this.zip,
-    // this.town,
-    // this.birth,
-    // this.comment,
+    this.id,
+    this.lastName, 
+    this.phone,
+    this.email,
+    this.adress,
+    this.zipCode,
+    this.city,
+    this.birth,
+    this.comment,
+    this.name,
   });
-  
+  factory UserData.fromJson(Map<String, dynamic > data){
+  return UserData(
+    id : data['id'],
+    lastName : data['last_name'],
+    phone : data['phone'], 
+    email : data['email'],
+    adress : data['adress'],
+    zipCode : data['zip_code'],
+    city : data['city'],
+    birth : data['birth'],
+    comment : data['comment']);
+
+  }
+
+
 }
+  
+
 class _InheritedUsers extends InheritedWidget{
   
   final UsersState data;
   
-  _InheritedUsers({this.data,Widget child}) : super(child: child);
+  _InheritedUsers({
+    @required this.data,
+    @required Widget child,
+    }) : super(child: child);
   
   @override 
   bool updateShouldNotify(_InheritedUsers old)=>true;
@@ -40,8 +61,8 @@ class Users extends StatefulWidget {
     this.user,
   }); 
 
-  static _InheritedUsers of(BuildContext context){
-    return (context.dependOnInheritedWidgetOfExactType<_InheritedUsers>());// Watch out //
+  static UsersState of(BuildContext context){
+    return (context.dependOnInheritedWidgetOfExactType<_InheritedUsers>()).data;// Watch out //
   }
 
 
@@ -51,9 +72,11 @@ class Users extends StatefulWidget {
 
 class UsersState extends State<Users> {
   UserData user;
+  
+
   void updateUserInfo(
     {
-      name, 
+      name 
       // phone, 
       // email, 
       // adress, 
@@ -62,17 +85,35 @@ class UsersState extends State<Users> {
       // birth, 
       // comment
 
-    }){
-      setState(() {
-              user.name = name ?? user.name;
-      });
+    })
+  {
+    var faker = new Faker();
+  
+  UserData user = UserData(
+    name: faker.person.lastName()
+  );
+      if(user == null){
+          user = new UserData(); 
+        setState(() {
+          user = user;         
+        });
+      }else{
+        setState(() {
+                user.name = name ?? user.name;
+        });
+      }
     }
   @override
   Widget build(BuildContext context) {
+    var faker = new Faker();
+    UserData user = UserData(
+      name: faker.person.lastName()
+    );
     return new _InheritedUsers(
       data: this,
       child: widget.child,
 
     );
+  
   }
 }
