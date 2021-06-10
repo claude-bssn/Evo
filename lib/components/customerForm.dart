@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'InheritedUsers.dart';
+
 class CustomerForm extends StatefulWidget {
 
   @override
@@ -8,7 +10,9 @@ class CustomerForm extends StatefulWidget {
 
 class _CustomerFormState extends State<CustomerForm> {
   final _formKey = GlobalKey<FormState>();
-  bool tapName = false;
+  String selectedValue = 'person';
+  bool tapName ;
+  UserData user;
   var page;
 
   @override
@@ -20,22 +24,22 @@ class _CustomerFormState extends State<CustomerForm> {
           padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
           child: Row(
             children: <Widget>[
-              Radio(
+              Radio <String>(
                 value: 'person',
-                groupValue: page,
+                groupValue: selectedValue,
                 onChanged: (val) {
                   setState(() {
-                  
+                  selectedValue ='person';
                   });
                 }
               ),
               Icon(Icons.person),
-              Radio(
-                value: 'company',
-                groupValue: page,
+              Radio <String>(
+                value: 'business',
+                groupValue: selectedValue,
                 onChanged: (val) {
                   setState(() {
-                  
+                    selectedValue ='business';
                   });
                 }
               ),
@@ -46,6 +50,7 @@ class _CustomerFormState extends State<CustomerForm> {
         Container(
           child: Column(
             children: [
+
               Form(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(100, 10, 100, 0),
@@ -235,41 +240,7 @@ class _CustomerFormState extends State<CustomerForm> {
                               ),
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SizedBox(
-                                height: 35,
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                  child: FloatingActionButton.extended(
-                                    label: Text('Annuler', style: TextStyle(fontSize: 13)),
-                                    backgroundColor: Colors.red,
-                                    onPressed: (){
-                                      setState(() {
-                                        tapName = false;                                
-                                      });
-
-                                    },
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 35,
-                                width: 170,
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                  child: FloatingActionButton.extended(
-                                    label: Text('Valider', style: TextStyle(fontSize: 13),),
-                                    backgroundColor: Color(0xFF95b900),
-                                    onPressed: (){
-                                      
-                                    },
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                          
                         ],
                       ),
                     ),

@@ -1,16 +1,15 @@
 
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 
 class UserData{
-  String id,lastName, phone, email, adress, zipCode, city, birth, comment, name;
+  String id,lastName, phone, email, address, zipCode, city, birth, comment, name;
 
   UserData({
     this.id,
     this.lastName, 
     this.phone,
     this.email,
-    this.adress,
+    this.address,
     this.zipCode,
     this.city,
     this.birth,
@@ -23,7 +22,7 @@ class UserData{
     lastName : data['last_name'],
     phone : data['phone'], 
     email : data['email'],
-    adress : data['adress'],
+    address : data['adress'],
     zipCode : data['zip_code'],
     city : data['city'],
     birth : data['birth'],
@@ -42,10 +41,10 @@ class _InheritedUsers extends InheritedWidget{
   _InheritedUsers({
     @required this.data,
     @required Widget child,
-    }) : super(child: child);
+  }) : super(child: child);
   
   @override 
-  bool updateShouldNotify(_InheritedUsers old)=>true;
+  bool updateShouldNotify(_InheritedUsers oldWidget)=> oldWidget.data != data;
 }
 
 // static InheritedUsers of(BuildContext context){
@@ -76,22 +75,17 @@ class UsersState extends State<Users> {
 
   void updateUserInfo(
     {
-      name 
-      // phone, 
-      // email, 
-      // adress, 
-      // zip, 
-      // town, 
-      // birth, 
-      // comment
+      lastName,
+      phone, 
+      email, 
+      address, 
+      zipCode, 
+      city, 
+      birth, 
+      comment
 
     })
   {
-    var faker = new Faker();
-  
-  UserData user = UserData(
-    name: faker.person.lastName()
-  );
       if(user == null){
           user = new UserData(); 
         setState(() {
@@ -99,16 +93,20 @@ class UsersState extends State<Users> {
         });
       }else{
         setState(() {
-                user.name = name ?? user.name;
+          user.lastName = lastName ?? user.lastName;
+          user.email = email?? user.email; 
+          user.phone = phone ?? user.phone ; 
+          user.address = address ?? user.address; 
+          user.zipCode = zipCode ?? user.zipCode; 
+          user.city = city ?? user.city; 
+          user.birth = birth ?? user.birth; 
+          user.comment = comment ?? user.comment;
         });
       }
     }
   @override
   Widget build(BuildContext context) {
-    var faker = new Faker();
-    UserData user = UserData(
-      name: faker.person.lastName()
-    );
+    
     return new _InheritedUsers(
       data: this,
       child: widget.child,
