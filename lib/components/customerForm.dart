@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'InheritedUsers.dart';
 
 class CustomerForm extends StatefulWidget {
-
   @override
   _CustomerFormState createState() => _CustomerFormState();
 }
@@ -11,38 +11,38 @@ class CustomerForm extends StatefulWidget {
 class _CustomerFormState extends State<CustomerForm> {
   final _formKey = GlobalKey<FormState>();
   String selectedValue = 'person';
-  bool tapName ;
+  bool tapName;
   UserData user;
   var page;
 
   @override
   Widget build(BuildContext context) {
+    // TODO(lsaudon): ici on récupere la variable
+    final userData = Provider.of<dynamic>(context, listen: false);
+    print(userData['last_name']);
     return Column(
-      
       children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
           child: Row(
             children: <Widget>[
-              Radio <String>(
-                value: 'person',
-                groupValue: selectedValue,
-                onChanged: (val) {
-                  setState(() {
-                  selectedValue ='person';
-                  });
-                }
-              ),
+              Radio<String>(
+                  value: 'person',
+                  groupValue: selectedValue,
+                  onChanged: (val) {
+                    setState(() {
+                      selectedValue = 'person';
+                    });
+                  }),
               Icon(Icons.person),
-              Radio <String>(
-                value: 'business',
-                groupValue: selectedValue,
-                onChanged: (val) {
-                  setState(() {
-                    selectedValue ='business';
-                  });
-                }
-              ),
+              Radio<String>(
+                  value: 'business',
+                  groupValue: selectedValue,
+                  onChanged: (val) {
+                    setState(() {
+                      selectedValue = 'business';
+                    });
+                  }),
               Icon(Icons.business),
             ],
           ),
@@ -50,14 +50,12 @@ class _CustomerFormState extends State<CustomerForm> {
         Container(
           child: Column(
             children: [
-
               Form(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(100, 10, 100, 0),
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.85,
-                      
-                      decoration: BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
@@ -67,10 +65,7 @@ class _CustomerFormState extends State<CustomerForm> {
                       padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        
                         children: <Widget>[
-                        // Container(),
-                        
                           Container(
                             padding: const EdgeInsets.all(8),
                             width: 200,
@@ -83,7 +78,6 @@ class _CustomerFormState extends State<CustomerForm> {
                               initialValue: 'Input text',
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                
                                 labelText: 'Nom',
                                 labelStyle: TextStyle(
                                   color: Color(0xFF6200EE),
@@ -137,8 +131,8 @@ class _CustomerFormState extends State<CustomerForm> {
                             ],
                           ),
                           Container(
-                          padding: const EdgeInsets.all(8),
-                          height: 50,
+                            padding: const EdgeInsets.all(8),
+                            height: 50,
                             child: TextFormField(
                               style: TextStyle(
                                 fontSize: 12,
@@ -170,7 +164,6 @@ class _CustomerFormState extends State<CustomerForm> {
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Code postal',
-                                    
                                     labelStyle: TextStyle(
                                       color: Color(0xFF6200EE),
                                       fontSize: 15,
@@ -217,7 +210,6 @@ class _CustomerFormState extends State<CustomerForm> {
                                   color: Color(0xFF6200EE),
                                   fontSize: 15,
                                 ),
-                                
                               ),
                             ),
                           ),
@@ -240,7 +232,6 @@ class _CustomerFormState extends State<CustomerForm> {
                               ),
                             ),
                           ),
-                          
                         ],
                       ),
                     ),
