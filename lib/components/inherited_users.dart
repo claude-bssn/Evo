@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 
 class UserData{
-  String id,lastName, phone, email, address, zipCode, city, birth, comment, name;
+  int id;
+  String lastName, phone, email, address, zipCode, city, birth, comment, name;
 
   UserData({
     this.id,

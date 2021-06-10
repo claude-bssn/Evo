@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'InheritedUsers.dart';
+import 'Inherited_users.dart';
 
 class CustomerForm extends StatefulWidget {
 

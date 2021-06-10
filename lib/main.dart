@@ -1,19 +1,39 @@
 import 'dart:convert';
 
-// import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_app/components/InheritedUsers.dart';
+import 'package:my_app/components/Inherited_users.dart';
+import 'package:provider/provider.dart';
 
-import 'components/customerForm.dart'; 
+import 'components/customer_form.dart'; 
 
 
 void main() {
 
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
-  runApp(new Users(child: new MyApp()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Customer()),
+      ],
+      child: new MyApp()
+    ),  
+  );
 }
+
+class Customer with ChangeNotifier{
+  List _customer = [];
+  List get customer = _customer;
+  void customer(){
+    _customer = dataCustomer;
+    notifyListeners();
+  }
+
+
+}
+
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -206,7 +226,7 @@ class _InfoPageState extends State<InfoPage> {
                               onTap: (){
                                 setState(() {
                                   showForm = true;
-                                  
+                                  _customer =dataCustomer[index];
                                                                   
                                 });
                               },
