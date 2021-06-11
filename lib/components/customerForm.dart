@@ -18,8 +18,8 @@ class _CustomerFormState extends State<CustomerForm> {
   @override
   Widget build(BuildContext context) {
     // TODO(lsaudon): ici on récupere la variable
-    final userData = Provider.of<dynamic>(context, listen: false);
-    print(userData['last_name']);
+    final userData = Provider.of<Object>(context, listen: false);
+    print(userData);
     return Column(
       children: [
         Padding(

@@ -11,7 +11,7 @@ import 'components/customerForm.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
-  runApp(new Users(child: new MyApp()));
+  runApp( new MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -40,6 +40,15 @@ class _InfoPageState extends State<InfoPage> {
   // TODO(lsaudon): Ici on a la variable
   UserData userData;
   bool showForm = false;
+  List<UserData> parseData(String response) {
+    final parsed = json.decode(response.toString()).cast<Map<String, Object>>();
+    return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
+  // } ;
+
+  //   return parsed.list<UserData>((json) => UserData.fromJson(json))
+  //   .toList()
+  //   .cast<UserData>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,13 +169,22 @@ class _InfoPageState extends State<InfoPage> {
                           ),
                         ),
                       ),
+                      
                       Container(
                         height: MediaQuery.of(context).size.height * 0.85,
-                        child: FutureBuilder(
+                        child: FutureBuilder (
                           builder: (context, snapshot) {
                             var dataCustomer =
-                                json.decode(snapshot.data.toString());
-                            print("$dataCustomer");
+                                parseData(snapshot.data.toString());
+                                // Map<String, dynamic> dataCustomer = new Map<String, dynamic>.from(json.decode(snapshot.data));
+                                // final _data = List<dynamic>.from(
+                                //   dataCustomer.map<dynamic>(
+                                //     (dynamic item) => item,
+                                //   ),
+                                // );
+                                
+                                // parseData(dataCustomer);
+                            print(dataCustomer[1].toString());
                             return ListView.separated(
                               separatorBuilder:
                                   (BuildContext context, int index) =>
@@ -176,8 +194,8 @@ class _InfoPageState extends State<InfoPage> {
                                   : dataCustomer.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return ListTile(
-                                  title: Text(dataCustomer[index]['last_name']),
-                                  subtitle: Text(dataCustomer[index]['phone']),
+                                  title: Text(dataCustomer[index].lastName),
+                                  subtitle: Text(dataCustomer[index].phone),
                                   onTap: () {
                                     setState(() {
                                       // TODO(lsaudon): Ici on donne la valeur à la variable
