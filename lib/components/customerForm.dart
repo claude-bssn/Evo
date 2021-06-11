@@ -18,8 +18,8 @@ class _CustomerFormState extends State<CustomerForm> {
   @override
   Widget build(BuildContext context) {
     // TODO(lsaudon): ici on récupere la variable
-    final userData = Provider.of<Object>(context, listen: false);
-    print(userData);
+    final userData = Provider.of<UserData>(context, listen: false);
+    print("${userData.lastName}");
     return Column(
       children: [
         Padding(
@@ -75,7 +75,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                 fontSize: 12,
                                 color: Colors.grey[800],
                               ),
-                              initialValue: 'Input text',
+                              initialValue: "${userData.lastName}",
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Nom',
@@ -97,7 +97,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                     fontSize: 12,
                                     color: Colors.grey[800],
                                   ),
-                                  initialValue: 'Input text',
+                                  initialValue: "${userData.phone}",
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Téléphone 1',
@@ -117,7 +117,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                     fontSize: 12,
                                     color: Colors.grey[800],
                                   ),
-                                  initialValue: 'Input text',
+                                  initialValue: "${userData.email}",
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Email',
@@ -138,7 +138,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                 fontSize: 12,
                                 color: Colors.grey[800],
                               ),
-                              initialValue: 'Input text',
+                              initialValue: "${userData.address}",
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Adresse de facturation',
@@ -160,7 +160,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                     fontSize: 12,
                                     color: Colors.grey[800],
                                   ),
-                                  initialValue: 'Input text',
+                                  initialValue: "${userData.zipCode}",
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Code postal',
@@ -180,7 +180,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                     fontSize: 12,
                                     color: Colors.grey[800],
                                   ),
-                                  initialValue: 'Input text',
+                                  initialValue: "${userData.city}",
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Ville',
@@ -202,10 +202,10 @@ class _CustomerFormState extends State<CustomerForm> {
                                 fontSize: 12,
                                 color: Colors.grey[800],
                               ),
-                              initialValue: 'Input text',
+                              initialValue: "${userData.birth}",
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: 'Birth Date',
+                                labelText: 'Date de naissance',
                                 labelStyle: TextStyle(
                                   color: Color(0xFF6200EE),
                                   fontSize: 15,
@@ -221,7 +221,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                 fontSize: 12,
                                 color: Colors.grey[800],
                               ),
-                              initialValue: 'Input text',
+                              initialValue: "${userData.comment}",
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Commentaire',
