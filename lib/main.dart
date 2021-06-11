@@ -204,7 +204,7 @@ class _InfoPageState extends State<InfoPage> {
                       height: MediaQuery.of(context).size.height * 0.85,
                       child: FutureBuilder(
                         builder: (context, snapshot){
-                          var dataCustomer = json.decode(snapshot.data.toString());
+                          
                           // dataCustomer.sort((a,b){
                             
                           //   return a.lastName.toLowerCase().compareTo(b.lastName.toLowerCase());
