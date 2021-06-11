@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class UserData {
+class UserData with ChangeNotifier {
   int id;
   String lastName;
   String phone;
@@ -24,6 +24,7 @@ class UserData {
     this.comment,
     
   });
+  
   factory UserData.fromJson(Map<String, Object> data) {
     return UserData(
         id: data['id'] as int,
@@ -37,6 +38,8 @@ class UserData {
         comment: data['comment']
         );
   }
+        
+       
 }
 
 // class _InheritedUsers extends InheritedWidget {

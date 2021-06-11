@@ -40,21 +40,20 @@ class _InfoPageState extends State<InfoPage> {
   // TODO(lsaudon): Ici on a la variable
   UserData userData;
   bool showForm = false;
+  
+
   List<UserData> parseData(String response) {
     final parsed = json.decode(response.toString()).cast<Map<String, Object>>();
     return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
-  // } ;
-
-  //   return parsed.list<UserData>((json) => UserData.fromJson(json))
-  //   .toList()
-  //   .cast<UserData>();
+  
   }
 
   @override
   Widget build(BuildContext context) {
+
     // TODO(lsaudon): Ici on a le provider qui est au dessus des deux widgets (list et formulaire)
-    return Provider<UserData>(
-      create: (_) => userData,
+    return ChangeNotifierProvider<UserData>.value(
+      value: userData,
       child: Row(
         children: <Widget>[
           Container(
@@ -118,6 +117,7 @@ class _InfoPageState extends State<InfoPage> {
                       child: Column(
                         children: [
                           if (showForm == true) CustomerForm(),
+                          
                         ],
                       ),
                     ),
@@ -174,17 +174,9 @@ class _InfoPageState extends State<InfoPage> {
                         height: MediaQuery.of(context).size.height * 0.85,
                         child: FutureBuilder (
                           builder: (context, snapshot) {
-                            var dataCustomer =
-                                parseData(snapshot.data.toString());
-                                // Map<String, dynamic> dataCustomer = new Map<String, dynamic>.from(json.decode(snapshot.data));
-                                // final _data = List<dynamic>.from(
-                                //   dataCustomer.map<dynamic>(
-                                //     (dynamic item) => item,
-                                //   ),
-                                // );
+                            var dataCustomer = parseData(snapshot.data.toString());
                                 
-                                // parseData(dataCustomer);
-                            print(dataCustomer[1].toString());
+                            // print(dataCustomer[1].toString());
                             return ListView.separated(
                               separatorBuilder:
                                   (BuildContext context, int index) =>
@@ -199,9 +191,12 @@ class _InfoPageState extends State<InfoPage> {
                                   onTap: () {
                                     setState(() {
                                       // TODO(lsaudon): Ici on donne la valeur à la variable
-                                      userData = dataCustomer[index];
-                                      showForm = true;
+                                        userData = dataCustomer[index];
+                                        showForm = true;
+                                        // print("${userData.lastName}");
+
                                     });
+                                              
                                   },
                                 );
                               },
