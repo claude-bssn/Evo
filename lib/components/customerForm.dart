@@ -4,12 +4,13 @@ import 'package:provider/provider.dart';
 import 'InheritedUsers.dart';
 
 class CustomerForm extends StatefulWidget {
+  CustomerForm({Key key}) : super(key: key);
   @override
   _CustomerFormState createState() => _CustomerFormState();
 }
 
 class _CustomerFormState extends State<CustomerForm> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState>_formKey = GlobalKey<FormState>();
   String selectedValue = 'person';
   bool tapName;
   UserData user;
@@ -20,6 +21,7 @@ class _CustomerFormState extends State<CustomerForm> {
     // TODO(lsaudon): ici on récupere la variable
     final userData = Provider.of<UserData>(context, listen: false);
     print("${userData.lastName}");
+    
     return Column(
       children: [
         Padding(
@@ -51,6 +53,7 @@ class _CustomerFormState extends State<CustomerForm> {
           child: Column(
             children: [
               Form(
+                key: _formKey,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(100, 10, 100, 0),
                   child: Container(
@@ -71,11 +74,17 @@ class _CustomerFormState extends State<CustomerForm> {
                             width: 200,
                             height: 50,
                             child: TextFormField(
+                              validator: (value){
+                                if (value == null || value.isEmpty){
+                                  return 'Veuillez renseigner le champ';
+                                }
+                                return null;
+                              },
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey[800],
                               ),
-                              initialValue: "${userData.lastName}",
+                              controller :TextEditingController()..text= "${userData.lastName}",
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Nom',
@@ -97,7 +106,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                     fontSize: 12,
                                     color: Colors.grey[800],
                                   ),
-                                  initialValue: "${userData.phone}",
+                                  controller :TextEditingController()..text= "${userData.phone}",
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Téléphone 1',
@@ -117,7 +126,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                     fontSize: 12,
                                     color: Colors.grey[800],
                                   ),
-                                  initialValue: "${userData.email}",
+                                  controller :TextEditingController()..text= "${userData.email}",
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Email',
@@ -138,7 +147,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                 fontSize: 12,
                                 color: Colors.grey[800],
                               ),
-                              initialValue: "${userData.address}",
+                              controller :TextEditingController()..text= "${userData.address}",
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Adresse de facturation',
@@ -160,7 +169,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                     fontSize: 12,
                                     color: Colors.grey[800],
                                   ),
-                                  initialValue: "${userData.zipCode}",
+                                  controller :TextEditingController()..text= "${userData.zipCode}",
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Code postal',
@@ -180,7 +189,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                     fontSize: 12,
                                     color: Colors.grey[800],
                                   ),
-                                  initialValue: "${userData.city}",
+                                  controller :TextEditingController()..text= "${userData.city}",
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Ville',
@@ -202,7 +211,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                 fontSize: 12,
                                 color: Colors.grey[800],
                               ),
-                              initialValue: "${userData.birth}",
+                              controller :TextEditingController()..text= "${userData.birth}",
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Date de naissance',
@@ -221,7 +230,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                 fontSize: 12,
                                 color: Colors.grey[800],
                               ),
-                              initialValue: "${userData.comment}",
+                              controller :TextEditingController()..text= "${userData.comment}",
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: 'Commentaire',

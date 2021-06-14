@@ -44,13 +44,13 @@ class _InfoPageState extends State<InfoPage> {
 
   List<UserData> parseData(String response) {
     final parsed = json.decode(response.toString()).cast<Map<String, Object>>();
+    parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
     return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
   
   }
 
   @override
   Widget build(BuildContext context) {
-
     // TODO(lsaudon): Ici on a le provider qui est au dessus des deux widgets (list et formulaire)
     return ChangeNotifierProvider<UserData>.value(
       value: userData,
@@ -89,7 +89,14 @@ class _InfoPageState extends State<InfoPage> {
                           style: TextStyle(fontSize: 13),
                         ),
                         backgroundColor: Color(0xFF95b900),
-                        onPressed: () {},
+                        onPressed: () {
+                          
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Utilisateur mis à jour")));
+                          setState(() {
+                          showForm = false;
+                                                      
+                          });
+                        },
                       ),
                     ),
                   )
@@ -174,13 +181,13 @@ class _InfoPageState extends State<InfoPage> {
                         height: MediaQuery.of(context).size.height * 0.85,
                         child: FutureBuilder (
                           builder: (context, snapshot) {
+                            
                             var dataCustomer = parseData(snapshot.data.toString());
-                                
-                            // print(dataCustomer[1].toString());
                             return ListView.separated(
                               separatorBuilder:
                                   (BuildContext context, int index) =>
                                       Divider(height: 1),
+
                               itemCount: dataCustomer == null
                                   ? 0
                                   : dataCustomer.length,
@@ -193,6 +200,7 @@ class _InfoPageState extends State<InfoPage> {
                                       // TODO(lsaudon): Ici on donne la valeur à la variable
                                         userData = dataCustomer[index];
                                         showForm = true;
+                                        
                                         // print("${userData.lastName}");
 
                                     });
@@ -216,4 +224,9 @@ class _InfoPageState extends State<InfoPage> {
       ),
     );
   }
+
 }
+
+
+
+
