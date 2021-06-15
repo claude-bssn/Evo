@@ -12,7 +12,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp( 
-    ChangeNotifierProvider(
+    Provider(
       create: (context)=> UserRepository(),
     child: MyApp(),
     ),
@@ -35,15 +35,15 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-class UserRepository with ChangeNotifier{
+class UserRepository {
   final List<UserData> userList = [];
 
   
   Future<List<UserData>> getAll(BuildContext context) async{
-    final userJson =  await DefaultAssetBundle.of(context).loadString("assets/MOCK_DATA.json");
-    final userList =  parseData(userJson.toString());//parse json
+    final userJson =   await DefaultAssetBundle.of(context).loadString("assets/MOCK_DATA.json");
+    final userList =  parseData(userList);//parse json
     // userList = value
-    print(userJson);
+    print(userList);
     return  userList;
   }
 
@@ -212,9 +212,9 @@ class _InfoPageState extends State<InfoPage> {
                             child: FutureBuilder (
                               
                               builder: (context, snapshot)  {
-                                final dataCustomer =  userList.getAll(context) ;
+                              //  final dataCustomer =  userList.getAll(context) ;
+                                final dataCustomer = snapshot.data.toString();
                                 print(dataCustomer);
-                                // final dataCustomer = parseData(snapshot.data.toString());
                                 
                                 return ListView.separated(
                                   // separatorBuilder:
@@ -243,8 +243,7 @@ class _InfoPageState extends State<InfoPage> {
                                   // },
                                 );
                               },
-                              // future: DefaultAssetBundle.of(context)
-                              //     .loadString("assets/MOCK_DATA.json"),
+                              future: userList.getAll(context),
                             ),
                           )),
                         
