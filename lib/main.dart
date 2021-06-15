@@ -48,8 +48,9 @@ class UserRepository {
   }
 
   List<UserData> parseData(String response) {
-    final parsed = json.decode(response.toString()).cast<Map<String, Object>>();
-    // parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
+    final parsed = jsonDecode(response.toString()).cast<Map<String, dynamic>>();
+    parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
+    print(parsed);
     return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
   
   }
@@ -213,8 +214,8 @@ class _InfoPageState extends State<InfoPage> {
                               
                               builder: (context, snapshot)  {
                               //  final dataCustomer =  userList.getAll(context) ;
-                                final dataCustomer = snapshot.data.toString();
-                                print(dataCustomer);
+                                final dataCustomer = snapshot.toString();
+                                print(dataCustomer.toString());
                                 
                                 return ListView.separated(
                                   // separatorBuilder:
