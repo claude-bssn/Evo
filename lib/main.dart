@@ -41,15 +41,15 @@ class UserRepository {
   
   Future<List<UserData>> getAll(BuildContext context) async{
     final userJson =   await DefaultAssetBundle.of(context).loadString("assets/MOCK_DATA.json");
-    final userList =  parseData(userList);//parse json
+    final userList =  parseData(userJson.toString());//parse json
     // userList = value
-    print(userList);
+    // print(userList);
     return  userList;
   }
 
   List<UserData> parseData(String response) {
     final parsed = json.decode(response.toString()).cast<Map<String, Object>>();
-    parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
+    // parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
     return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
   
   }
