@@ -11,7 +11,12 @@ import 'components/customerForm.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIOverlays([]);
-  runApp( new MyApp());
+  runApp( 
+    ChangeNotifierProvider(
+      create: (context)=> UserRepository(),
+    child: MyApp(),
+    ),
+  ); 
 }
 
 class MyApp extends StatelessWidget {
@@ -30,17 +35,17 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+class UserRepository with ChangeNotifier{
+  final List<UserData> userList = [];
 
-class InfoPage extends StatefulWidget {
-  @override
-  _InfoPageState createState() => _InfoPageState();
-}
-
-class _InfoPageState extends State<InfoPage> {
-  // TODO(lsaudon): Ici on a la variable
-  UserData userData;
-  bool showForm = false;
   
+  Future<List<UserData>> getAll(BuildContext context) async{
+    final userJson =  await DefaultAssetBundle.of(context).loadString("assets/MOCK_DATA.json");
+    final userList =  parseData(userJson.toString());//parse json
+    // userList = value
+    print(userJson);
+    return  userList;
+  }
 
   List<UserData> parseData(String response) {
     final parsed = json.decode(response.toString()).cast<Map<String, Object>>();
@@ -48,9 +53,31 @@ class _InfoPageState extends State<InfoPage> {
     return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
   
   }
+}
+class InfoPage extends StatefulWidget {
+  
+  @override
+  _InfoPageState createState() => _InfoPageState();
+}
+
+class _InfoPageState extends State<InfoPage> {
+  
+
+  // TODO(lsaudon): Ici on a la variable
+  UserData userData;
+  bool showForm = false;
+  
+
+  // List<UserData> parseData(String response) {
+  //   final parsed = json.decode(response.toString()).cast<Map<String, Object>>();
+  //   parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
+  //   return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
+  
+  // }
 
   @override
   Widget build(BuildContext context) {
+
     // TODO(lsaudon): Ici on a le provider qui est au dessus des deux widgets (list et formulaire)
     return ChangeNotifierProvider<UserData>.value(
       value: userData,
@@ -177,43 +204,52 @@ class _InfoPageState extends State<InfoPage> {
                         ),
                       ),
                       
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.85,
-                        child: FutureBuilder (
-                          builder: (context, snapshot) {
-                            
-                            var dataCustomer = parseData(snapshot.data.toString());
-                            return ListView.separated(
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                      Divider(height: 1),
+                      Consumer<UserRepository>(
 
-                              itemCount: dataCustomer == null
-                                  ? 0
-                                  : dataCustomer.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                  title: Text(dataCustomer[index].lastName),
-                                  subtitle: Text(dataCustomer[index].phone),
-                                  onTap: () {
-                                    setState(() {
-                                      // TODO(lsaudon): Ici on donne la valeur à la variable
-                                        userData = dataCustomer[index];
-                                        showForm = true;
-                                        
-                                        // print("${userData.lastName}");
+                        builder: (context, userList, child)=>(
+                           Container(
+                            height: MediaQuery.of(context).size.height * 0.85,
+                            child: FutureBuilder (
+                              
+                              builder: (context, snapshot)  {
+                                final dataCustomer =  userList.getAll(context) ;
+                                print(dataCustomer);
+                                // final dataCustomer = parseData(snapshot.data.toString());
+                                
+                                return ListView.separated(
+                                  // separatorBuilder:
+                                  //     (BuildContext context, int index) =>
+                                  //         Divider(height: 1),
 
-                                    });
-                                              
-                                  },
+                                  // itemCount: dataCustomer == null
+                                  //     ? 0
+                                  //     : dataCustomer.length,
+                                  // itemBuilder: (BuildContext context, int index) {
+                                  //   return ListTile(
+                                  //     title: Text(dataCustomer.lastName),
+                                  //     subtitle: Text(dataCustomer[index].phone),
+                                  //     onTap: () {
+                                  //       setState(() {
+                                  //         // TODO(lsaudon): Ici on donne la valeur à la variable
+                                  //           userData = dataCustomer[index];
+                                  //           showForm = true;
+                                            
+                                  //           // print("${userData.lastName}");
+
+                                  //       });
+                                                  
+                                  //     },
+                                  //   );
+                                  // },
                                 );
                               },
-                            );
-                          },
-                          future: DefaultAssetBundle.of(context)
-                              .loadString("assets/MOCK_DATA.json"),
+                              // future: DefaultAssetBundle.of(context)
+                              //     .loadString("assets/MOCK_DATA.json"),
+                            ),
+                          )),
+                        
                         ),
-                      ),
+                      
                     ],
                   ),
                 ),
