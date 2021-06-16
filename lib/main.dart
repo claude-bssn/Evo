@@ -37,11 +37,12 @@ class MyApp extends StatelessWidget {
   }
 }
 class UserRepository {
-  final FormSearch search = FormSearch();
-   List<UserData> userList = [];
+  // final FormSearch search = FormSearch();
+  //  List<UserData> search.userList = userList;
   Future<List<UserData>> getAll(BuildContext context) async{
     final userJson =   await DefaultAssetBundle.of(context).loadString("assets/MOCK_DATA.json");
     final userList =  parseData(userJson.toString());
+    //  search.userList = userList;
     return userList;
   }
   List<UserData> parseData(String response) {
@@ -196,7 +197,7 @@ class _InfoPageState extends State<InfoPage> {
                               onChanged: (value){
 
                               search.enteredKeyword = value;
-                               print(search.enteredKeyword);
+                               print(search.userList);
                               }
                             ),
                           ),
@@ -208,7 +209,7 @@ class _InfoPageState extends State<InfoPage> {
                              var dataCustomer = [];
                               if(search.enteredKeyword.isEmpty){
                                 
-                              dataCustomer = snapshot.data;
+                                dataCustomer = snapshot.data;
                               } else {
                                  dataCustomer = snapshot.data
                                     .where((user) =>
@@ -240,6 +241,7 @@ class _InfoPageState extends State<InfoPage> {
                                 },
                               );
                             },
+                            
                             future: userList.getAll(context),
                           ),
                         ),

@@ -24,6 +24,21 @@ mixin _$FormSearch on _FormSearch, Store {
     });
   }
 
+  final _$userListAtom = Atom(name: '_FormSearch.userList');
+
+  @override
+  Future<dynamic> get userList {
+    _$userListAtom.reportRead();
+    return super.userList;
+  }
+
+  @override
+  set userList(Future<dynamic> value) {
+    _$userListAtom.reportWrite(value, super.userList, () {
+      super.userList = value;
+    });
+  }
+
   final _$_FormSearchActionController = ActionController(name: '_FormSearch');
 
   @override
@@ -38,9 +53,21 @@ mixin _$FormSearch on _FormSearch, Store {
   }
 
   @override
+  Future<UserRepository> getAll() {
+    final _$actionInfo =
+        _$_FormSearchActionController.startAction(name: '_FormSearch.getAll');
+    try {
+      return super.getAll();
+    } finally {
+      _$_FormSearchActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-enteredKeyword: ${enteredKeyword}
+enteredKeyword: ${enteredKeyword},
+userList: ${userList}
     ''';
   }
 }
