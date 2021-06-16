@@ -7,6 +7,7 @@ import 'package:my_app/components/InheritedUsers.dart';
 import 'package:provider/provider.dart';
 
 import 'components/customerForm.dart';
+import 'components/form_search.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,25 +37,12 @@ class MyApp extends StatelessWidget {
   }
 }
 class UserRepository {
+  final FormSearch search = FormSearch();
    List<UserData> userList = [];
   Future<List<UserData>> getAll(BuildContext context) async{
-    var enteredKeyword = 'ro';
     final userJson =   await DefaultAssetBundle.of(context).loadString("assets/MOCK_DATA.json");
     final userList =  parseData(userJson.toString());
-    // final results = userList.where((user) =>
-          //     user.lastName.toLowerCase().contains(enteredKeyword.toLowerCase()))
-          // .toList();
-          if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      return userList;
-    } else {
-      return  userList
-          .where((user) =>
-              user.lastName.toLowerCase().contains(enteredKeyword.toLowerCase()))
-          .toList();
-      // we use the toLowerCase() method to make it case-insensitive
-    }
-    // return  results;
+    return userList;
   }
   List<UserData> parseData(String response) {
     
@@ -72,6 +60,7 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
+  final FormSearch search = FormSearch();
   // TODO(lsaudon): Ici on a la variable
   UserData userData;
   bool showForm = false;
@@ -204,19 +193,29 @@ class _InfoPageState extends State<InfoPage> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(50))),
                               ),
-                              // onChanged: ,
+                              onChanged: (value){
+
+                              search.enteredKeyword = value;
+                               print(search.enteredKeyword);
+                              }
                             ),
                           ),
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.85,
                           child: FutureBuilder <List<UserData>>(
-                            
                             builder: (context, snapshot)  {
-                            //  final dataCustomer =  userList.getAll(context) ;
-                              final dataCustomer = snapshot.data;
+                             var dataCustomer = [];
+                              if(search.enteredKeyword.isEmpty){
+                                
+                              dataCustomer = snapshot.data;
+                              } else {
+                                 dataCustomer = snapshot.data
+                                    .where((user) =>
+                                        user.lastName.toLowerCase().contains(search.enteredKeyword.toLowerCase()))
+                                    .toList();
+                              }
                               print(dataCustomer);
-                              
                               return ListView.separated(
                                 separatorBuilder:
                                     (BuildContext context, int index) =>
