@@ -65,9 +65,9 @@ class _InfoPageState extends State<InfoPage> {
   // TODO(lsaudon): Ici on a la variable
   UserData userData;
   bool showForm = false;
- 
   @override
   Widget build(BuildContext context) {
+ print(search.userList);
 
     // TODO(lsaudon): Ici on a le provider qui est au dessus des deux widgets (list et formulaire)
     return ChangeNotifierProvider<UserData>.value(
@@ -197,7 +197,6 @@ class _InfoPageState extends State<InfoPage> {
                               onChanged: (value){
 
                               search.enteredKeyword = value;
-                               print(search.userList);
                               }
                             ),
                           ),
@@ -206,6 +205,8 @@ class _InfoPageState extends State<InfoPage> {
                           height: MediaQuery.of(context).size.height * 0.85,
                           child: FutureBuilder <List<UserData>>(
                             builder: (context, snapshot)  {
+                               print(search.userList);
+
                              var dataCustomer = [];
                               if(search.enteredKeyword.isEmpty){
                                 
@@ -216,7 +217,7 @@ class _InfoPageState extends State<InfoPage> {
                                         user.lastName.toLowerCase().contains(search.enteredKeyword.toLowerCase()))
                                     .toList();
                               }
-                              print(dataCustomer);
+                              // print(dataCustomer);
                               return ListView.separated(
                                 separatorBuilder:
                                     (BuildContext context, int index) =>
