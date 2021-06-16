@@ -27,7 +27,7 @@ class UserData with ChangeNotifier {
   
   factory UserData.fromJson(Map<String, Object> data) {
     return UserData(
-        id: data['id'] as int,
+        id: data['id']as int,
         lastName: data['last_name'],
         phone: data['phone'],
         email: data['email'],
@@ -38,7 +38,19 @@ class UserData with ChangeNotifier {
         comment: data['comment']
         );
   }
-        
+  
+  @override
+  String toString(){
+    return 'id: $id'
+  'lastName: $lastName'
+   'phone: $phone'
+   'email: $email'
+   'address: $address'
+   'zipCode: $zipCode'
+   'city: $city'
+   'birth: $birth'
+   'comment: $comment';
+  }
        
 }
 

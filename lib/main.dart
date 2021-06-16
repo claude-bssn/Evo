@@ -36,24 +36,34 @@ class MyApp extends StatelessWidget {
   }
 }
 class UserRepository {
-  final List<UserData> userList = [];
-
-  
+   List<UserData> userList = [];
   Future<List<UserData>> getAll(BuildContext context) async{
+    var enteredKeyword = 'ro';
     final userJson =   await DefaultAssetBundle.of(context).loadString("assets/MOCK_DATA.json");
-    final userList =  parseData(userJson.toString());//parse json
-    // userList = value
-    // print(userList);
-    return  userList;
+    final userList =  parseData(userJson.toString());
+    // final results = userList.where((user) =>
+          //     user.lastName.toLowerCase().contains(enteredKeyword.toLowerCase()))
+          // .toList();
+          if (enteredKeyword.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      return userList;
+    } else {
+      return  userList
+          .where((user) =>
+              user.lastName.toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+      // we use the toLowerCase() method to make it case-insensitive
+    }
+    // return  results;
+  }
+  List<UserData> parseData(String response) {
+    
+    final parsed = jsonDecode(response.toString()).cast<Map<String, Object>>();
+    parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
+    
+    return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
   }
 
-  List<UserData> parseData(String response) {
-    final parsed = jsonDecode(response.toString()).cast<Map<String, dynamic>>();
-    parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
-    print(parsed);
-    return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
-  
-  }
 }
 class InfoPage extends StatefulWidget {
   
@@ -62,20 +72,10 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
-  
-
   // TODO(lsaudon): Ici on a la variable
   UserData userData;
   bool showForm = false;
-  
-
-  // List<UserData> parseData(String response) {
-  //   final parsed = json.decode(response.toString()).cast<Map<String, Object>>();
-  //   parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
-  //   return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
-  
-  // }
-
+ 
   @override
   Widget build(BuildContext context) {
 
@@ -178,84 +178,84 @@ class _InfoPageState extends State<InfoPage> {
                   )
                 ]),
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          height: 35,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              suffixIcon: Icon(
-                                Icons.search,
-                                color: Colors.grey,
+                  child: Consumer<UserRepository>(
+
+                    builder: (context, userList, child)=>(
+                      Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 35,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                suffixIcon: Icon(
+                                  Icons.search,
+                                  color: Colors.grey,
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey[200],
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50))),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50))),
                               ),
-                              filled: true,
-                              fillColor: Colors.grey[200],
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
+                              // onChanged: ,
                             ),
                           ),
                         ),
-                      ),
-                      
-                      Consumer<UserRepository>(
-
-                        builder: (context, userList, child)=>(
-                           Container(
-                            height: MediaQuery.of(context).size.height * 0.85,
-                            child: FutureBuilder (
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.85,
+                          child: FutureBuilder <List<UserData>>(
+                            
+                            builder: (context, snapshot)  {
+                            //  final dataCustomer =  userList.getAll(context) ;
+                              final dataCustomer = snapshot.data;
+                              print(dataCustomer);
                               
-                              builder: (context, snapshot)  {
-                              //  final dataCustomer =  userList.getAll(context) ;
-                                final dataCustomer = snapshot.toString();
-                                print(dataCustomer.toString());
-                                
-                                return ListView.separated(
-                                  // separatorBuilder:
-                                  //     (BuildContext context, int index) =>
-                                  //         Divider(height: 1),
+                              return ListView.separated(
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        Divider(height: 1),
 
-                                  // itemCount: dataCustomer == null
-                                  //     ? 0
-                                  //     : dataCustomer.length,
-                                  // itemBuilder: (BuildContext context, int index) {
-                                  //   return ListTile(
-                                  //     title: Text(dataCustomer.lastName),
-                                  //     subtitle: Text(dataCustomer[index].phone),
-                                  //     onTap: () {
-                                  //       setState(() {
-                                  //         // TODO(lsaudon): Ici on donne la valeur à la variable
-                                  //           userData = dataCustomer[index];
-                                  //           showForm = true;
-                                            
-                                  //           // print("${userData.lastName}");
-
-                                  //       });
-                                                  
-                                  //     },
-                                  //   );
-                                  // },
-                                );
-                              },
-                              future: userList.getAll(context),
-                            ),
-                          )),
-                        
+                                itemCount: dataCustomer == null
+                                    ? 0
+                                    : dataCustomer.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final user =snapshot.data[index];
+                                  return ListTile(
+                                    title: Text(user.lastName),
+                                    subtitle: Text(user.phone),
+                                    onTap: () {
+                                      setState(() {
+                                        // TODO(lsaudon): Ici on donne la valeur à la variable
+                                          userData = dataCustomer[index];
+                                          showForm = true;
+                                      });       
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                            future: userList.getAll(context),
+                          ),
                         ),
+                        
+                        
                       
-                    ],
+                      ],
+                    )
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
+          
         ],
       ),
     );
