@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-class UserData with ChangeNotifier {
+class UserData {
   @observable
   int id;
   String lastName;
@@ -12,7 +11,6 @@ class UserData with ChangeNotifier {
   String city;
   String birth;
   String comment;
-  
 
   UserData({
     this.id,
@@ -24,12 +22,11 @@ class UserData with ChangeNotifier {
     this.city,
     this.birth,
     this.comment,
-    
   });
-  
+
   factory UserData.fromJson(Map<String, Object> data) {
     return UserData(
-        id: data['id']as int,
+        id: data['id'] as int,
         lastName: data['last_name'],
         phone: data['phone'],
         email: data['email'],
@@ -37,22 +34,19 @@ class UserData with ChangeNotifier {
         zipCode: data['zip_code'],
         city: data['city'],
         birth: data['birth'],
-        comment: data['comment']
-        );
+        comment: data['comment']);
   }
-  
-  @override
-  String toString(){
-    return 'id: $id'
-    'lastName: $lastName'
-    'phone: $phone'
-    'email: $email'
-    'address: $address'
-    'zipCode: $zipCode'
-    'city: $city'
-    'birth: $birth'
-    'comment: $comment';
-  }
-       
-}
 
+  @override
+  String toString() {
+    return 'id: $id'
+        'lastName: $lastName'
+        'phone: $phone'
+        'email: $email'
+        'address: $address'
+        'zipCode: $zipCode'
+        'city: $city'
+        'birth: $birth'
+        'comment: $comment';
+  }
+}

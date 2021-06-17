@@ -24,85 +24,59 @@ mixin _$FormSearch on _FormSearch, Store {
     });
   }
 
-  final _$userListAtom = Atom(name: '_FormSearch.userList');
-
-  @override
-  Future<List<UserData>> get userList {
-    _$userListAtom.reportRead();
-    return super.userList;
-  }
-
-  @override
-  set userList(Future<List<UserData>> value) {
-    _$userListAtom.reportWrite(value, super.userList, () {
-      super.userList = value;
-    });
-  }
-
   final _$usersAtom = Atom(name: '_FormSearch.users');
 
   @override
-  List<dynamic> get users {
+  List<UserData> get users {
     _$usersAtom.reportRead();
     return super.users;
   }
 
   @override
-  set users(List<dynamic> value) {
+  set users(List<UserData> value) {
     _$usersAtom.reportWrite(value, super.users, () {
       super.users = value;
+    });
+  }
+
+  final _$userSelectedAtom = Atom(name: '_FormSearch.userSelected');
+
+  @override
+  UserData get userSelected {
+    _$userSelectedAtom.reportRead();
+    return super.userSelected;
+  }
+
+  @override
+  set userSelected(UserData value) {
+    _$userSelectedAtom.reportWrite(value, super.userSelected, () {
+      super.userSelected = value;
     });
   }
 
   final _$formKeyAtom = Atom(name: '_FormSearch.formKey');
 
   @override
-  dynamic get formKey {
+  GlobalKey<FormState> get formKey {
     _$formKeyAtom.reportRead();
     return super.formKey;
   }
 
   @override
-  set formKey(dynamic value) {
+  set formKey(GlobalKey<FormState> value) {
     _$formKeyAtom.reportWrite(value, super.formKey, () {
       super.formKey = value;
     });
   }
 
+  final _$getAllAsyncAction = AsyncAction('_FormSearch.getAll');
+
+  @override
+  Future<void> getAll(BuildContext context) {
+    return _$getAllAsyncAction.run(() => super.getAll(context));
+  }
+
   final _$_FormSearchActionController = ActionController(name: '_FormSearch');
-
-  @override
-  void setSearch(String value) {
-    final _$actionInfo = _$_FormSearchActionController.startAction(
-        name: '_FormSearch.setSearch');
-    try {
-      return super.setSearch(value);
-    } finally {
-      _$_FormSearchActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setUserList(List<dynamic> value) {
-    final _$actionInfo = _$_FormSearchActionController.startAction(
-        name: '_FormSearch.setUserList');
-    try {
-      return super.setUserList(value);
-    } finally {
-      _$_FormSearchActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setUsers(List<dynamic> value) {
-    final _$actionInfo =
-        _$_FormSearchActionController.startAction(name: '_FormSearch.setUsers');
-    try {
-      return super.setUsers(value);
-    } finally {
-      _$_FormSearchActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   void setFormKey(dynamic value) {
@@ -116,7 +90,29 @@ mixin _$FormSearch on _FormSearch, Store {
   }
 
   @override
-  void updateUser(dynamic index, dynamic value) {
+  void setSearch(String value) {
+    final _$actionInfo = _$_FormSearchActionController.startAction(
+        name: '_FormSearch.setSearch');
+    try {
+      return super.setSearch(value);
+    } finally {
+      _$_FormSearchActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void selectUser(UserData user) {
+    final _$actionInfo = _$_FormSearchActionController.startAction(
+        name: '_FormSearch.selectUser');
+    try {
+      return super.selectUser(user);
+    } finally {
+      _$_FormSearchActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateUser(int index, UserData value) {
     final _$actionInfo = _$_FormSearchActionController.startAction(
         name: '_FormSearch.updateUser');
     try {
@@ -127,22 +123,11 @@ mixin _$FormSearch on _FormSearch, Store {
   }
 
   @override
-  Future<dynamic> getAll(BuildContext context) {
-    final _$actionInfo =
-        _$_FormSearchActionController.startAction(name: '_FormSearch.getAll');
-    try {
-      return super.getAll(context);
-    } finally {
-      _$_FormSearchActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 enteredKeyword: ${enteredKeyword},
-userList: ${userList},
 users: ${users},
+userSelected: ${userSelected},
 formKey: ${formKey}
     ''';
   }
