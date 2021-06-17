@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -97,6 +96,7 @@ class _InfoPageState extends State<InfoPage> {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Utilisateur mis à jour")));
                           setState(() {
                           showForm = false;
+
                                                       
                           });
                         },
@@ -179,25 +179,8 @@ class _InfoPageState extends State<InfoPage> {
                                         BorderRadius.all(Radius.circular(50))),
                               ),
                               onChanged: (value){
-
-                              // search.enteredKeyword = value;
                               search.setSearch(value);
-
                               print(search.enteredKeyword);
-                              // setState(() {
-                              //   if(search.enteredKeyword.isEmpty){
-                              //     dataCustomer = search.userList;
-                                
-                                // } 
-                                // else {
-                                      
-                              //     dataCustomer = search.userList
-                              //         .where((user) =>
-                              //             user.lastName.toLowerCase().contains(search.enteredKeyword.toLowerCase()))
-                              //         .toList();
-                                                                          
-                                // }
-                              // });
                               }
                             ),
                           ),
@@ -207,85 +190,65 @@ class _InfoPageState extends State<InfoPage> {
                           child: FutureBuilder <List<UserData>>(
                             future: userList.getAll(context),
                             builder: (context, snapshot)  {
-                              
                                 dataCustomer = snapshot.data;
-                              // if(search.enteredKeyword.isEmpty){
-                              //   dataCustomer = snapshot.data;
-                                
-                              // } else {
-                                    
-                              //    dataCustomer = snapshot.data
-                              //       .where((user) =>
-                              //           user.lastName.toLowerCase().contains(search.enteredKeyword.toLowerCase()))
-                              //       .toList();
-                                                                         
-                              // }
                              search.userList = dataCustomer;
                               return Observer(
                                 builder: (_) {
-                                  
                                   if (search.users == null){
-                                return ListView.separated(
-                                  separatorBuilder:
-                                      (BuildContext context, int index) =>
-                                          Divider(height: 1),
-                                  itemCount: search.userList == null
-                                      ? 0
-                                      : search.userList.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    // print(search.userList);
-                                    final user =search.userList[index];
-                                    return ListTile(
-                                      title: Text(user.lastName),
-                                      subtitle: Text(user.phone),
-                                      onTap: () {
-                                        setState(() {
-                                          // TODO(lsaudon): Ici on donne la valeur à la variable
-                                            userData = dataCustomer[index];
-                                            showForm = true;
-                                        });       
+                                    return ListView.separated(
+                                      separatorBuilder:
+                                          (BuildContext context, int index) =>
+                                              Divider(height: 1),
+                                      itemCount: search.userList == null
+                                          ? 0
+                                          : search.userList.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        // print(search.userList);
+                                        final user =search.userList[index];
+                                        return ListTile(
+                                          title: Text(user.lastName),
+                                          subtitle: Text(user.phone),
+                                          onTap: () {
+                                            setState(() {
+                                              // TODO(lsaudon): Ici on donne la valeur à la variable
+                                                userData = dataCustomer[index];
+                                                showForm = true;
+                                            });       
+                                          },
+                                        );
                                       },
                                     );
-                                  },
-                                );
-
                                   }else{
                                     return ListView.separated(
-                                  separatorBuilder:
-                                      (BuildContext context, int index) =>
-                                          Divider(height: 1),
-                                  itemCount: search.users == null
-                                      ? 0
-                                      : search.users.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    // print(search.users);
-                                    final user =search.users[index];
-                                    return ListTile(
-                                      title: Text(user.lastName),
-                                      subtitle: Text(user.phone),
-                                      onTap: () {
-                                        setState(() {
-                                          // TODO(lsaudon): Ici on donne la valeur à la variable
-                                            userData = search.users[index];
-                                            showForm = true;
-                                        });       
+                                      separatorBuilder:
+                                          (BuildContext context, int index) =>
+                                              Divider(height: 1),
+                                      itemCount: search.users == null
+                                          ? 0
+                                          : search.users.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        // print(search.users);
+                                        final user =search.users[index];
+                                        return ListTile(
+                                          title: Text(user.lastName),
+                                          subtitle: Text(user.phone),
+                                          onTap: () {
+                                            setState(() {
+                                              // TODO(lsaudon): Ici on donne la valeur à la variable
+                                                userData = search.users[index];
+                                                showForm = true;
+                                            });       
+                                          },
+                                        );
                                       },
                                     );
-                                  },
-                                );
                                   }
-
-
                                 },
                               );
-                            },
-                            
-                            
+                            }, 
                           ),
                         ),
                         
-                        
-                      
                       ],
                     )
                       ),

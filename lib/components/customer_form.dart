@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/components/user_store.dart';
 import 'package:my_app/user/model/user.dart';
 import 'package:provider/provider.dart';
 
@@ -10,17 +11,18 @@ class CustomerForm extends StatefulWidget {
 }
 
 class _CustomerFormState extends State<CustomerForm> {
+  final UserStore userStore= UserStore();
   final GlobalKey<FormState>_formKey = GlobalKey<FormState>();
   String selectedValue = 'person';
   bool tapName;
   UserData user;
-  var page;
 
   @override
   Widget build(BuildContext context) {
     // TODO(lsaudon): ici on récupere la variable
     final userData = Provider.of<UserData>(context, listen: false);
     print("${userData.lastName}");
+   userStore.setFormKey(_formKey) ;
     
     return Column(
       children: [

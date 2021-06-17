@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
 
 class UserData with ChangeNotifier {
+  @observable
   int id;
   String lastName;
   String phone;
