@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_app/components/InheritedUsers.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:my_app/user/model/user.dart';
+import 'package:my_app/user/repo/user_repository.dart';
 import 'package:provider/provider.dart';
 
-import 'components/customerForm.dart';
+import 'components/customer_form.dart';
 import 'components/form_search.dart';
 
 void main() {
@@ -35,24 +37,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-class UserRepository {
-  // final FormSearch search = FormSearch();
-  //  List<UserData> search.userList = userList;
-  Future<List<UserData>> getAll(BuildContext context) async{
-    final userJson =   await DefaultAssetBundle.of(context).loadString("assets/MOCK_DATA.json");
-    final userList =  parseData(userJson.toString());
-    //  search.userList = userList;
-    return userList;
-  }
-  List<UserData> parseData(String response) {
-    
-    final parsed = jsonDecode(response.toString()).cast<Map<String, Object>>();
-    parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
-    
-    return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
-  }
 
-}
 class InfoPage extends StatefulWidget {
   
   @override
@@ -64,6 +49,8 @@ class _InfoPageState extends State<InfoPage> {
   // TODO(lsaudon): Ici on a la variable
   UserData userData;
   bool showForm = false;
+  var dataCustomer = [];
+
   @override
   Widget build(BuildContext context) {
 
@@ -193,7 +180,24 @@ class _InfoPageState extends State<InfoPage> {
                               ),
                               onChanged: (value){
 
-                              search.enteredKeyword = value;
+                              // search.enteredKeyword = value;
+                              search.setSearch(value);
+
+                              print(search.enteredKeyword);
+                              // setState(() {
+                              //   if(search.enteredKeyword.isEmpty){
+                              //     dataCustomer = search.userList;
+                                
+                                // } 
+                                // else {
+                                      
+                              //     dataCustomer = search.userList
+                              //         .where((user) =>
+                              //             user.lastName.toLowerCase().contains(search.enteredKeyword.toLowerCase()))
+                              //         .toList();
+                                                                          
+                                // }
+                              // });
                               }
                             ),
                           ),
@@ -201,48 +205,82 @@ class _InfoPageState extends State<InfoPage> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.85,
                           child: FutureBuilder <List<UserData>>(
+                            future: userList.getAll(context),
                             builder: (context, snapshot)  {
-                              //  print(search.userList);
-                               print(search.getAll(context));
-
-
-                             var dataCustomer = [];
-                              if(search.enteredKeyword.isEmpty){
-                                
+                              
                                 dataCustomer = snapshot.data;
-                              } else {
-                                 dataCustomer = snapshot.data
-                                    .where((user) =>
-                                        user.lastName.toLowerCase().contains(search.enteredKeyword.toLowerCase()))
-                                    .toList();
-                              }
-                              // print(dataCustomer);
-                              return ListView.separated(
-                                separatorBuilder:
-                                    (BuildContext context, int index) =>
-                                        Divider(height: 1),
+                              // if(search.enteredKeyword.isEmpty){
+                              //   dataCustomer = snapshot.data;
+                                
+                              // } else {
+                                    
+                              //    dataCustomer = snapshot.data
+                              //       .where((user) =>
+                              //           user.lastName.toLowerCase().contains(search.enteredKeyword.toLowerCase()))
+                              //       .toList();
+                                                                         
+                              // }
+                             search.userList = dataCustomer;
+                              return Observer(
+                                builder: (_) {
+                                  
+                                  if (search.users == null){
+                                return ListView.separated(
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          Divider(height: 1),
+                                  itemCount: search.userList == null
+                                      ? 0
+                                      : search.userList.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    // print(search.userList);
+                                    final user =search.userList[index];
+                                    return ListTile(
+                                      title: Text(user.lastName),
+                                      subtitle: Text(user.phone),
+                                      onTap: () {
+                                        setState(() {
+                                          // TODO(lsaudon): Ici on donne la valeur à la variable
+                                            userData = dataCustomer[index];
+                                            showForm = true;
+                                        });       
+                                      },
+                                    );
+                                  },
+                                );
 
-                                itemCount: dataCustomer == null
-                                    ? 0
-                                    : dataCustomer.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final user =snapshot.data[index];
-                                  return ListTile(
-                                    title: Text(user.lastName),
-                                    subtitle: Text(user.phone),
-                                    onTap: () {
-                                      setState(() {
-                                        // TODO(lsaudon): Ici on donne la valeur à la variable
-                                          userData = dataCustomer[index];
-                                          showForm = true;
-                                      });       
-                                    },
-                                  );
+                                  }else{
+                                    return ListView.separated(
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          Divider(height: 1),
+                                  itemCount: search.users == null
+                                      ? 0
+                                      : search.users.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    // print(search.users);
+                                    final user =search.users[index];
+                                    return ListTile(
+                                      title: Text(user.lastName),
+                                      subtitle: Text(user.phone),
+                                      onTap: () {
+                                        setState(() {
+                                          // TODO(lsaudon): Ici on donne la valeur à la variable
+                                            userData = search.users[index];
+                                            showForm = true;
+                                        });       
+                                      },
+                                    );
+                                  },
+                                );
+                                  }
+
+
                                 },
                               );
                             },
                             
-                            future: userList.getAll(context),
+                            
                           ),
                         ),
                         

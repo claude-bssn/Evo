@@ -1,13 +1,4 @@
-
-// import 'dart:js';
-
-
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-
-import 'InheritedUsers.dart';
 
 part 'form_search.g.dart';
 
@@ -19,28 +10,34 @@ abstract class _FormSearch with Store{
   String enteredKeyword = '';
   
   @observable
-  ObservableMap userList ;
+  List userList ;
   
+  @observable
+  List users ;
+
   @action
-  void setEnteredKeyword(String value){
+  void setSearch(String value){
     enteredKeyword =value;
-    
+    users=userList;
+    if(enteredKeyword.isEmpty && enteredKeyword == null){
+      users= userList;                    
+    } else {                      
+      users = userList
+        .where((user) =>
+            user.lastName.toLowerCase().contains(enteredKeyword.toLowerCase()))
+        .toList();
+                                                                          
+    }
   }
   @action
-  Future getAll(BuildContext context)async{
-    final userJson =   await DefaultAssetBundle.of(context).loadString("assets/MOCK_DATA.json");
-    final userList =  parseData(userJson.toString());
-    return userList;
-  }
-  List parseData(String response) {
+  void setUserList(List value){
+    userList = value ;
     
-    final parsed = jsonDecode(response.toString()).cast<Map<String, Object>>();
-    parsed.sort((a,b) =>a['last_name'].toString().toLowerCase().compareTo(b['last_name'].toString().toLowerCase()));
-    
-    return parsed.map<UserData>((json) => new UserData.fromJson(json)).toList();
   }
-  void getUsers(context){
-    getAll(context);
+   @action
+  void setUsers(List value){
+    users = userList ;
+    
   }
   
 }

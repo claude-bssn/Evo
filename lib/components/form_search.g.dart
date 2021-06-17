@@ -27,33 +27,63 @@ mixin _$FormSearch on _FormSearch, Store {
   final _$userListAtom = Atom(name: '_FormSearch.userList');
 
   @override
-  ObservableMap<dynamic, dynamic> get userList {
+  List<dynamic> get userList {
     _$userListAtom.reportRead();
     return super.userList;
   }
 
   @override
-  set userList(ObservableMap<dynamic, dynamic> value) {
+  set userList(List<dynamic> value) {
     _$userListAtom.reportWrite(value, super.userList, () {
       super.userList = value;
     });
   }
 
-  final _$getAllAsyncAction = AsyncAction('_FormSearch.getAll');
+  final _$usersAtom = Atom(name: '_FormSearch.users');
 
   @override
-  Future<dynamic> getAll(BuildContext context) {
-    return _$getAllAsyncAction.run(() => super.getAll(context));
+  List<dynamic> get users {
+    _$usersAtom.reportRead();
+    return super.users;
+  }
+
+  @override
+  set users(List<dynamic> value) {
+    _$usersAtom.reportWrite(value, super.users, () {
+      super.users = value;
+    });
   }
 
   final _$_FormSearchActionController = ActionController(name: '_FormSearch');
 
   @override
-  void setEnteredKeyword(String value) {
+  void setSearch(String value) {
     final _$actionInfo = _$_FormSearchActionController.startAction(
-        name: '_FormSearch.setEnteredKeyword');
+        name: '_FormSearch.setSearch');
     try {
-      return super.setEnteredKeyword(value);
+      return super.setSearch(value);
+    } finally {
+      _$_FormSearchActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setUserList(List<dynamic> value) {
+    final _$actionInfo = _$_FormSearchActionController.startAction(
+        name: '_FormSearch.setUserList');
+    try {
+      return super.setUserList(value);
+    } finally {
+      _$_FormSearchActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setUsers(List<dynamic> value) {
+    final _$actionInfo =
+        _$_FormSearchActionController.startAction(name: '_FormSearch.setUsers');
+    try {
+      return super.setUsers(value);
     } finally {
       _$_FormSearchActionController.endAction(_$actionInfo);
     }
@@ -63,7 +93,8 @@ mixin _$FormSearch on _FormSearch, Store {
   String toString() {
     return '''
 enteredKeyword: ${enteredKeyword},
-userList: ${userList}
+userList: ${userList},
+users: ${users}
     ''';
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/user/model/user.dart';
 import 'package:provider/provider.dart';
 
-import 'InheritedUsers.dart';
 
 class CustomerForm extends StatefulWidget {
   CustomerForm({Key key}) : super(key: key);
