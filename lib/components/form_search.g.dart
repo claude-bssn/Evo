@@ -27,13 +27,13 @@ mixin _$FormSearch on _FormSearch, Store {
   final _$userListAtom = Atom(name: '_FormSearch.userList');
 
   @override
-  ObservableFuture<List<dynamic>> get userList {
+  ObservableMap<dynamic, dynamic> get userList {
     _$userListAtom.reportRead();
     return super.userList;
   }
 
   @override
-  set userList(ObservableFuture<List<dynamic>> value) {
+  set userList(ObservableMap<dynamic, dynamic> value) {
     _$userListAtom.reportWrite(value, super.userList, () {
       super.userList = value;
     });
@@ -42,7 +42,7 @@ mixin _$FormSearch on _FormSearch, Store {
   final _$getAllAsyncAction = AsyncAction('_FormSearch.getAll');
 
   @override
-  Future<List<dynamic>> getAll(BuildContext context) {
+  Future<dynamic> getAll(BuildContext context) {
     return _$getAllAsyncAction.run(() => super.getAll(context));
   }
 

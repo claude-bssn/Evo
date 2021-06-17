@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-// import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_app/components/InheritedUsers.dart';
@@ -67,7 +66,6 @@ class _InfoPageState extends State<InfoPage> {
   bool showForm = false;
   @override
   Widget build(BuildContext context) {
- print(search.userList);
 
     // TODO(lsaudon): Ici on a le provider qui est au dessus des deux widgets (list et formulaire)
     return ChangeNotifierProvider<UserData>.value(
@@ -169,7 +167,6 @@ class _InfoPageState extends State<InfoPage> {
                 ]),
                 child: SingleChildScrollView(
                   child: Consumer<UserRepository>(
-
                     builder: (context, userList, child)=>(
                       Column(
                       children: [
@@ -205,7 +202,9 @@ class _InfoPageState extends State<InfoPage> {
                           height: MediaQuery.of(context).size.height * 0.85,
                           child: FutureBuilder <List<UserData>>(
                             builder: (context, snapshot)  {
-                               print(search.userList);
+                              //  print(search.userList);
+                               print(search.getAll(context));
+
 
                              var dataCustomer = [];
                               if(search.enteredKeyword.isEmpty){

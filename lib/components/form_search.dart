@@ -13,13 +13,13 @@ part 'form_search.g.dart';
 
 class FormSearch = _FormSearch with _$FormSearch;
 abstract class _FormSearch with Store{
-  // _FormSearch(this.userRepository); //Le fait d'écrir cette ligne m'émpêche d'appeler  le constructor FormSearch() sans paramettre dans main.dart$
+  // _FormSearch(this.userList); //Le fait d'écrir cette ligne m'émpêche d'appeler  le constructor FormSearch() sans paramettre dans main.dart$
   // final UserRepository userRepository;
   @observable
   String enteredKeyword = '';
   
   @observable
-  ObservableFuture<List> userList;// je ne sais pas quel Type lui assigner 
+  ObservableMap userList ;
   
   @action
   void setEnteredKeyword(String value){
@@ -27,7 +27,7 @@ abstract class _FormSearch with Store{
     
   }
   @action
-  Future<List>  getAll(BuildContext context)async{
+  Future getAll(BuildContext context)async{
     final userJson =   await DefaultAssetBundle.of(context).loadString("assets/MOCK_DATA.json");
     final userList =  parseData(userJson.toString());
     return userList;
