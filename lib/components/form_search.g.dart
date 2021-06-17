@@ -27,13 +27,13 @@ mixin _$FormSearch on _FormSearch, Store {
   final _$userListAtom = Atom(name: '_FormSearch.userList');
 
   @override
-  List<dynamic> get userList {
+  Future<List<UserData>> get userList {
     _$userListAtom.reportRead();
     return super.userList;
   }
 
   @override
-  set userList(List<dynamic> value) {
+  set userList(Future<List<UserData>> value) {
     _$userListAtom.reportWrite(value, super.userList, () {
       super.userList = value;
     });
@@ -51,6 +51,21 @@ mixin _$FormSearch on _FormSearch, Store {
   set users(List<dynamic> value) {
     _$usersAtom.reportWrite(value, super.users, () {
       super.users = value;
+    });
+  }
+
+  final _$formKeyAtom = Atom(name: '_FormSearch.formKey');
+
+  @override
+  dynamic get formKey {
+    _$formKeyAtom.reportRead();
+    return super.formKey;
+  }
+
+  @override
+  set formKey(dynamic value) {
+    _$formKeyAtom.reportWrite(value, super.formKey, () {
+      super.formKey = value;
     });
   }
 
@@ -90,11 +105,45 @@ mixin _$FormSearch on _FormSearch, Store {
   }
 
   @override
+  void setFormKey(dynamic value) {
+    final _$actionInfo = _$_FormSearchActionController.startAction(
+        name: '_FormSearch.setFormKey');
+    try {
+      return super.setFormKey(value);
+    } finally {
+      _$_FormSearchActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void updateUser(dynamic index, dynamic value) {
+    final _$actionInfo = _$_FormSearchActionController.startAction(
+        name: '_FormSearch.updateUser');
+    try {
+      return super.updateUser(index, value);
+    } finally {
+      _$_FormSearchActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<dynamic> getAll(BuildContext context) {
+    final _$actionInfo =
+        _$_FormSearchActionController.startAction(name: '_FormSearch.getAll');
+    try {
+      return super.getAll(context);
+    } finally {
+      _$_FormSearchActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 enteredKeyword: ${enteredKeyword},
 userList: ${userList},
-users: ${users}
+users: ${users},
+formKey: ${formKey}
     ''';
   }
 }

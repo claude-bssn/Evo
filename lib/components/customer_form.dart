@@ -11,7 +11,7 @@ class CustomerForm extends StatefulWidget {
 }
 
 class _CustomerFormState extends State<CustomerForm> {
-  final UserStore userStore= UserStore();
+  // final UserStore userStore= UserStore();
   final GlobalKey<FormState>_formKey = GlobalKey<FormState>();
   String selectedValue = 'person';
   bool tapName;
@@ -22,7 +22,7 @@ class _CustomerFormState extends State<CustomerForm> {
     // TODO(lsaudon): ici on récupere la variable
     final userData = Provider.of<UserData>(context, listen: false);
     print("${userData.lastName}");
-   userStore.setFormKey(_formKey) ;
+  //  userStore.setFormKey(_formKey) ;
     
     return Column(
       children: [

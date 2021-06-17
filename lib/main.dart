@@ -44,7 +44,14 @@ class InfoPage extends StatefulWidget {
 }
 
 class _InfoPageState extends State<InfoPage> {
-  final FormSearch search = FormSearch();
+  FormSearch search;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final userRepository = Provider.of<UserRepository>(context,listen: false);
+    search = FormSearch(userRepository);
+    search.getAll(context);
+  }
   // TODO(lsaudon): Ici on a la variable
   UserData userData;
   bool showForm = false;
@@ -187,24 +194,24 @@ class _InfoPageState extends State<InfoPage> {
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.85,
-                          child: FutureBuilder <List<UserData>>(
-                            future: userList.getAll(context),
-                            builder: (context, snapshot)  {
-                                dataCustomer = snapshot.data;
-                             search.userList = dataCustomer;
-                              return Observer(
+                          // child: FutureBuilder <List<UserData>>(
+                          //   future: userList.getAll(context),
+                          //   builder: (context, snapshot)  {
+                          //       dataCustomer = snapshot.data;
+                          //    search.userList = dataCustomer;
+                              child: Observer(
                                 builder: (_) {
                                   if (search.users == null){
                                     return ListView.separated(
                                       separatorBuilder:
                                           (BuildContext context, int index) =>
                                               Divider(height: 1),
-                                      itemCount: search.userList == null
+                                      itemCount: search.users == null
                                           ? 0
-                                          : search.userList.length,
+                                          : search.users.length,
                                       itemBuilder: (BuildContext context, int index) {
                                         // print(search.userList);
-                                        final user =search.userList[index];
+                                        final user =search.users[index];
                                         return ListTile(
                                           title: Text(user.lastName),
                                           subtitle: Text(user.phone),
@@ -244,9 +251,9 @@ class _InfoPageState extends State<InfoPage> {
                                     );
                                   }
                                 },
-                              );
-                            }, 
-                          ),
+                              )
+                            // }, 
+                          // ),
                         ),
                         
                       ],
