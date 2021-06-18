@@ -11,7 +11,6 @@ class CustomerForm extends StatefulWidget {
 }
 
 class _CustomerFormState extends State<CustomerForm> {
-  // final UserStore userStore= UserStore();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController lastNameCont = TextEditingController();
   TextEditingController phoneCont = TextEditingController();
@@ -21,8 +20,6 @@ class _CustomerFormState extends State<CustomerForm> {
   @override
   Widget build(BuildContext context) {
     final formSearch = Provider.of<FormSearch>(context, listen: false);
-    // formSearch.setFormKey(_formKey);
-
     
     return Column(
       children: [
