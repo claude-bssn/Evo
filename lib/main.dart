@@ -96,6 +96,7 @@ class _InfoPageState extends State<InfoPage> {
                               content: Text("Utilisateur mis à jour")));
                           setState(() {
                             _showForm = false;
+                            formSearch.updateUser(formSearch.userSelected);
                           });
                         },
                       ),
@@ -179,7 +180,6 @@ class _InfoPageState extends State<InfoPage> {
                             ),
                             onChanged: (value) {
                               formSearch.setSearch(value);
-                              print(formSearch.enteredKeyword);
                             },
                           ),
                         ),

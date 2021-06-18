@@ -25,10 +25,12 @@ abstract class _FormSearch with Store {
   @observable
   GlobalKey<FormState> formKey;
 
-  @action
-  void setFormKey(value) {
-    formKey = value;
-  }
+  @observable
+  List<UserData> _userUD;
+
+  String lastNameU;
+  String phoneU;
+
 
   @action
   void setSearch(String value) {
@@ -49,11 +51,16 @@ abstract class _FormSearch with Store {
   }
 
   @action
-  void updateUser(int index, UserData value) {
-    print(value.toString());
-    // trouver le user avec userSelected.id
-    // changer ça valeur dans _userList
-    // changer users
+  void updateUser(UserData value) {
+    int id = value.id;
+    _userUD = _userList.where((user) => user.id == id).toList();
+    if (lastNameU != null) {
+      _userUD[0].lastName = lastNameU;
+      lastNameU = null;
+    } else if (phoneU != null) {
+      _userUD[0].phone = phoneU;
+      phoneU = null;
+    }
   }
 
   @action

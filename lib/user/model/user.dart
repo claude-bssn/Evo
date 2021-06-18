@@ -1,7 +1,4 @@
-import 'package:mobx/mobx.dart';
-
 class UserData {
-  @observable
   int id;
   String lastName;
   String phone;

@@ -13,13 +13,17 @@ class CustomerForm extends StatefulWidget {
 class _CustomerFormState extends State<CustomerForm> {
   // final UserStore userStore= UserStore();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  TextEditingController lastNameCont = TextEditingController();
+  TextEditingController phoneCont = TextEditingController();
   String selectedValue = 'person';
+  
 
   @override
   Widget build(BuildContext context) {
     final formSearch = Provider.of<FormSearch>(context, listen: false);
-    formSearch.setFormKey(_formKey);
+    // formSearch.setFormKey(_formKey);
+
+    
     return Column(
       children: [
         Padding(
@@ -86,7 +90,7 @@ class _CustomerFormState extends State<CustomerForm> {
                                     fontSize: 12,
                                     color: Colors.grey[800],
                                   ),
-                                  controller: TextEditingController()
+                                  controller: lastNameCont
                                     ..text = "${user.lastName}",
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
@@ -96,6 +100,9 @@ class _CustomerFormState extends State<CustomerForm> {
                                       fontSize: 15,
                                     ),
                                   ),
+                                  onChanged: (value){
+                                  formSearch.lastNameU = value;
+                                  },
                                 ),
                               ),
                               Row(
@@ -119,6 +126,9 @@ class _CustomerFormState extends State<CustomerForm> {
                                           fontSize: 15,
                                         ),
                                       ),
+                                      onChanged: (value){
+                                        formSearch.phoneU = value;
+                                      }, 
                                     ),
                                   ),
                                   Container(

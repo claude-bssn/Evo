@@ -69,6 +69,21 @@ mixin _$FormSearch on _FormSearch, Store {
     });
   }
 
+  final _$_userUDAtom = Atom(name: '_FormSearch._userUD');
+
+  @override
+  List<UserData> get _userUD {
+    _$_userUDAtom.reportRead();
+    return super._userUD;
+  }
+
+  @override
+  set _userUD(List<UserData> value) {
+    _$_userUDAtom.reportWrite(value, super._userUD, () {
+      super._userUD = value;
+    });
+  }
+
   final _$getAllAsyncAction = AsyncAction('_FormSearch.getAll');
 
   @override
@@ -77,17 +92,6 @@ mixin _$FormSearch on _FormSearch, Store {
   }
 
   final _$_FormSearchActionController = ActionController(name: '_FormSearch');
-
-  @override
-  void setFormKey(dynamic value) {
-    final _$actionInfo = _$_FormSearchActionController.startAction(
-        name: '_FormSearch.setFormKey');
-    try {
-      return super.setFormKey(value);
-    } finally {
-      _$_FormSearchActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   void setSearch(String value) {
@@ -112,11 +116,11 @@ mixin _$FormSearch on _FormSearch, Store {
   }
 
   @override
-  void updateUser(int index, UserData value) {
+  void updateUser(UserData value) {
     final _$actionInfo = _$_FormSearchActionController.startAction(
         name: '_FormSearch.updateUser');
     try {
-      return super.updateUser(index, value);
+      return super.updateUser(value);
     } finally {
       _$_FormSearchActionController.endAction(_$actionInfo);
     }
