@@ -14,7 +14,7 @@ class _CustomerFormState extends State<CustomerForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController lastNameCont = TextEditingController();
   TextEditingController phoneCont = TextEditingController();
-  String selectedValue = 'person';
+    String selectedValue = 'person';
   
 
   @override
@@ -219,7 +219,7 @@ class _CustomerFormState extends State<CustomerForm> {
                               ),
                               Container(
                                 padding: const EdgeInsets.all(8),
-                                width: 100,
+                                width: 110,
                                 height: 50,
                                 child: TextFormField(
                                   style: TextStyle(

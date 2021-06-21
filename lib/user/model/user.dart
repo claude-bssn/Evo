@@ -27,7 +27,7 @@ class UserData {
         lastName: data['last_name'],
         phone: data['phone'],
         email: data['email'],
-        address: data['adress'],
+        address: data['address'],
         zipCode: data['zip_code'],
         city: data['city'],
         birth: data['birth'],
